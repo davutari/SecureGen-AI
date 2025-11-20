@@ -21,15 +21,26 @@ export const AlgorithmicGenerator: React.FC<Props> = ({ onGenerate }) => {
     const handleGenerate = useCallback(() => {
         const newPassword = generateRandomPassword(options);
         setPassword(newPassword);
-        onGenerate(newPassword, PasswordType.ALGORITHMIC);
+        // We don't add to history automatically on change, only on intentional click/copy if desired
+        // But to keep previous behavior consistent:
+        if (newPassword) {
+            // Optional: Only add to history on button click to prevent spamming history on slider change
+            // For now, we call it on explicit button click below
+        }
         setCopied(false);
-    }, [options, onGenerate]);
+    }, [options]);
 
-    // Generate on mount and when options change (debounced slightly for sliders)
+    // Initial generate
     useEffect(() => {
         handleGenerate();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []); 
+
+    const handleExplicitGenerate = () => {
+        handleGenerate();
+        const newPassword = generateRandomPassword(options); // Re-generate to ensure fresh
+        setPassword(newPassword);
+        onGenerate(newPassword, PasswordType.ALGORITHMIC);
+    };
 
     const copyToClipboard = async () => {
         if (!password) return;
@@ -54,7 +65,7 @@ export const AlgorithmicGenerator: React.FC<Props> = ({ onGenerate }) => {
                     <button 
                         onClick={copyToClipboard}
                         className="p-3 rounded-lg bg-slate-700 hover:bg-indigo-600 text-slate-300 hover:text-white transition-all active:scale-95"
-                        title="Copy to clipboard"
+                        title="Kopyala"
                     >
                         {copied ? <CheckIcon className="w-6 h-6 text-green-400" /> : <CopyIcon className="w-6 h-6" />}
                     </button>
@@ -67,9 +78,12 @@ export const AlgorithmicGenerator: React.FC<Props> = ({ onGenerate }) => {
                         style={{ width: `${(strength.score / 4) * 100}%` }}
                     />
                 </div>
-                <p className={`text-xs mt-1 text-right font-bold ${strength.color.replace('bg-', 'text-')}`}>
-                    {strength.label.toUpperCase()}
-                </p>
+                <div className="flex justify-between mt-1">
+                    <p className="text-xs text-slate-500">Güvenlik Seviyesi</p>
+                    <p className={`text-xs font-bold ${strength.color.replace('bg-', 'text-')}`}>
+                        {strength.label.toUpperCase()}
+                    </p>
+                </div>
             </div>
 
             {/* Controls */}
@@ -77,7 +91,7 @@ export const AlgorithmicGenerator: React.FC<Props> = ({ onGenerate }) => {
                 {/* Length Slider */}
                 <div>
                     <div className="flex justify-between items-center mb-2">
-                        <label className="text-slate-400 text-sm font-medium">Password Length</label>
+                        <label className="text-slate-400 text-sm font-medium">Şifre Uzunluğu</label>
                         <span className="bg-indigo-900/50 text-indigo-300 px-3 py-1 rounded-md font-mono text-sm">{options.length}</span>
                     </div>
                     <input 
@@ -93,22 +107,22 @@ export const AlgorithmicGenerator: React.FC<Props> = ({ onGenerate }) => {
                 {/* Toggles */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Checkbox 
-                        label="Uppercase Letters (A-Z)" 
+                        label="Büyük Harfler (A-Z)" 
                         checked={options.includeUppercase} 
                         onChange={(v) => setOptions({...options, includeUppercase: v})} 
                     />
                     <Checkbox 
-                        label="Lowercase Letters (a-z)" 
+                        label="Küçük Harfler (a-z)" 
                         checked={options.includeLowercase} 
                         onChange={(v) => setOptions({...options, includeLowercase: v})} 
                     />
                     <Checkbox 
-                        label="Numbers (0-9)" 
+                        label="Rakamlar (0-9)" 
                         checked={options.includeNumbers} 
                         onChange={(v) => setOptions({...options, includeNumbers: v})} 
                     />
                     <Checkbox 
-                        label="Symbols (!@#...)" 
+                        label="Semboller (!@#...)" 
                         checked={options.includeSymbols} 
                         onChange={(v) => setOptions({...options, includeSymbols: v})} 
                     />
@@ -116,11 +130,11 @@ export const AlgorithmicGenerator: React.FC<Props> = ({ onGenerate }) => {
             </div>
 
             <button 
-                onClick={handleGenerate}
+                onClick={handleExplicitGenerate}
                 className="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-semibold text-lg flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-indigo-900/20"
             >
                 <RefreshIcon className="w-5 h-5" />
-                Generate New Password
+                Yeni Şifre Oluştur
             </button>
         </div>
     );

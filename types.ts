@@ -23,3 +23,28 @@ export interface ValidationResult {
     label: string;
     color: string;
 }
+
+// Gamification Types
+export interface UserProfile {
+    xp: number;
+    level: number;
+    badges: string[];
+    completedQuizzes: number[];
+}
+
+export interface QuizQuestion {
+    id: number;
+    question: string;
+    options: string[];
+    correctAnswer: number;
+    explanation: string;
+    xpReward: number;
+}
+
+export interface AcademyTip {
+    id: number;
+    title: string;
+    content: string;
+    category: 'Defense' | 'Privacy' | 'Awareness';
+    icon: string;
+}

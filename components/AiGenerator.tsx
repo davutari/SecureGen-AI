@@ -20,7 +20,7 @@ export const AiGenerator: React.FC<Props> = ({ onGenerate }) => {
             const results = await generateMemorablePassphrases();
             setPassphrases(results);
         } catch (error) {
-            alert("Failed to generate passwords with AI. Please check your API key.");
+            alert("AI servisine bağlanılamadı. Lütfen API anahtarını kontrol et.");
         } finally {
             setLoading(false);
         }
@@ -33,7 +33,7 @@ export const AiGenerator: React.FC<Props> = ({ onGenerate }) => {
         onGenerate(pwd, PasswordType.AI_MEMORABLE);
 
         // Perform AI Audit
-        setAuditResult({ pwd, comment: "Analyzing..." });
+        setAuditResult({ pwd, comment: "Güvenlik analizi yapılıyor..." });
         const comment = await auditPassword(pwd);
         setAuditResult({ pwd, comment });
     };
@@ -43,7 +43,9 @@ export const AiGenerator: React.FC<Props> = ({ onGenerate }) => {
             <div className="bg-indigo-900/20 border border-indigo-500/30 p-4 rounded-xl">
                 <p className="text-indigo-200 text-sm flex gap-2 items-start">
                     <SparklesIcon className="w-5 h-5 shrink-0 mt-0.5" />
-                    Generates memorable passphrases (e.g., "Correct-Horse-Battery") using Gemini 2.5 Flash. Perfect for humans, hard for computers.
+                    <span>
+                        Gemini AI, hatırlaması kolay ama kırması zor cümle-şifreler oluşturur (Örn: "Mavi-Balina-Uçuyor-99").
+                    </span>
                 </p>
             </div>
 
@@ -51,7 +53,7 @@ export const AiGenerator: React.FC<Props> = ({ onGenerate }) => {
                 {loading ? (
                     <div className="flex flex-col items-center justify-center h-48 space-y-4 text-slate-400">
                         <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-                        <p>AI is hallucinating passwords...</p>
+                        <p>AI güvenli kelimeler üretiyor...</p>
                     </div>
                 ) : passphrases.length > 0 ? (
                     passphrases.map((pwd, idx) => (
@@ -68,7 +70,7 @@ export const AiGenerator: React.FC<Props> = ({ onGenerate }) => {
                     ))
                 ) : (
                     <div className="flex items-center justify-center h-48 text-slate-500 italic border-2 border-dashed border-slate-800 rounded-xl">
-                        Click generate to start
+                        Oluşturmak için butona bas
                     </div>
                 )}
             </div>
@@ -76,7 +78,7 @@ export const AiGenerator: React.FC<Props> = ({ onGenerate }) => {
             {auditResult && (
                 <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
                     <div className="bg-slate-900 border-l-4 border-purple-500 p-4 rounded-r-xl shadow-xl">
-                        <p className="text-xs text-purple-400 font-bold uppercase tracking-wider mb-1">Gemini Security Audit</p>
+                        <p className="text-xs text-purple-400 font-bold uppercase tracking-wider mb-1">AI Güvenlik Yorumu</p>
                         <p className="text-slate-300 italic">"{auditResult.comment}"</p>
                     </div>
                 </div>
@@ -87,7 +89,7 @@ export const AiGenerator: React.FC<Props> = ({ onGenerate }) => {
                 disabled={loading}
                 className="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-xl font-semibold text-lg flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-indigo-900/20 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-                {loading ? 'Generating...' : <><SparklesIcon className="w-5 h-5" /> Generate with AI</>}
+                {loading ? 'Düşünülüyor...' : <><SparklesIcon className="w-5 h-5" /> AI ile Oluştur</>}
             </button>
         </div>
     );
