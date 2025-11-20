@@ -1,0 +1,5 @@
+{
+  "name": "SecureGen AI",
+  "description": "A modern, high-security password generator featuring algorithmic randomness and AI-powered memorable passphrases using Gemini 2.5 Flash.",
+  "requestFramePermissions": []
+}
