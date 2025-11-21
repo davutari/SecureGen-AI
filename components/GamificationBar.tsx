@@ -1,12 +1,15 @@
+
 import React from 'react';
 import { UserProfile } from '../types';
-import { TrophyIcon, ShieldIcon } from './Icons';
+import { TrophyIcon, ShieldIcon, SunIcon, MoonIcon } from './Icons';
 
 interface Props {
     profile: UserProfile;
+    theme: 'dark' | 'light';
+    toggleTheme: () => void;
 }
 
-export const GamificationBar: React.FC<Props> = ({ profile }) => {
+export const GamificationBar: React.FC<Props> = ({ profile, theme, toggleTheme }) => {
     // Level calculation: 100 XP per level
     const nextLevelXp = (profile.level + 1) * 100;
     const currentLevelBaseXp = profile.level * 100;
@@ -21,24 +24,24 @@ export const GamificationBar: React.FC<Props> = ({ profile }) => {
     };
 
     return (
-        <div className="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50 p-4 shadow-lg">
+        <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-gray-200 dark:border-slate-800 sticky top-0 z-50 p-4 shadow-lg transition-colors duration-300">
             <div className="max-w-5xl mx-auto flex items-center justify-between">
                 <div className="flex items-center gap-4">
                     <div className="bg-gradient-to-br from-indigo-500 to-purple-600 w-12 h-12 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20">
                         <ShieldIcon className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                        <h2 className="text-white font-bold text-sm md:text-base">{getLevelTitle(profile.level)}</h2>
-                        <p className="text-indigo-300 text-xs font-mono">Level {profile.level}</p>
+                        <h2 className="text-slate-900 dark:text-white font-bold text-sm md:text-base">{getLevelTitle(profile.level)}</h2>
+                        <p className="text-indigo-600 dark:text-indigo-300 text-xs font-mono">Level {profile.level}</p>
                     </div>
                 </div>
 
-                <div className="flex-1 mx-4 md:mx-8 max-w-md">
-                    <div className="flex justify-between text-xs text-slate-400 mb-1">
+                <div className="flex-1 mx-4 md:mx-8 max-w-md hidden sm:block">
+                    <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400 mb-1">
                         <span>XP: {profile.xp}</span>
                         <span>Next: {nextLevelXp}</span>
                     </div>
-                    <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                    <div className="h-2 bg-gray-200 dark:bg-slate-800 rounded-full overflow-hidden">
                         <div 
                             className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 transition-all duration-700 ease-out"
                             style={{ width: `${Math.min(progress, 100)}%` }}
@@ -46,9 +49,19 @@ export const GamificationBar: React.FC<Props> = ({ profile }) => {
                     </div>
                 </div>
 
-                <div className="hidden md:flex items-center gap-2 bg-slate-800/50 px-3 py-1.5 rounded-lg border border-slate-700">
-                    <TrophyIcon className="w-4 h-4 text-yellow-500" />
-                    <span className="text-slate-300 text-sm font-bold">{profile.badges.length} Rozet</span>
+                <div className="flex items-center gap-3">
+                    <div className="hidden md:flex items-center gap-2 bg-gray-100 dark:bg-slate-800/50 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-slate-700">
+                        <TrophyIcon className="w-4 h-4 text-yellow-600 dark:text-yellow-500" />
+                        <span className="text-slate-700 dark:text-slate-300 text-sm font-bold">{profile.badges.length} Rozet</span>
+                    </div>
+                    
+                    <button 
+                        onClick={toggleTheme}
+                        className="p-2 rounded-lg bg-gray-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
+                        title={theme === 'dark' ? 'Açık Tema' : 'Koyu Tema'}
+                    >
+                        {theme === 'dark' ? <SunIcon className="w-5 h-5" /> : <MoonIcon className="w-5 h-5" />}
+                    </button>
                 </div>
             </div>
         </div>

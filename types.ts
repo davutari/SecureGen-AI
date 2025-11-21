@@ -1,3 +1,4 @@
+
 export interface PasswordOptions {
     length: number;
     includeUppercase: boolean;
@@ -41,10 +42,13 @@ export interface QuizQuestion {
     xpReward: number;
 }
 
+export type AcademyCategory = 'Tehditler' | 'Savunma' | 'Gizlilik';
+
 export interface AcademyTip {
     id: number;
     title: string;
     content: string;
-    category: 'Defense' | 'Privacy' | 'Awareness';
-    icon: string;
+    category: AcademyCategory;
+    icon: React.ReactNode; // Changed from string to ReactNode for components
+    difficulty: 'Başlangıç' | 'Orta' | 'İleri';
 }

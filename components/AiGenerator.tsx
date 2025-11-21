@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { PasswordType } from '../types';
 import { generateMemorablePassphrases, auditPassword } from '../services/geminiService';
@@ -40,8 +41,8 @@ export const AiGenerator: React.FC<Props> = ({ onGenerate }) => {
 
     return (
         <div className="space-y-6">
-            <div className="bg-indigo-900/20 border border-indigo-500/30 p-4 rounded-xl">
-                <p className="text-indigo-200 text-sm flex gap-2 items-start">
+            <div className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-500/30 p-4 rounded-xl">
+                <p className="text-indigo-700 dark:text-indigo-200 text-sm flex gap-2 items-start">
                     <SparklesIcon className="w-5 h-5 shrink-0 mt-0.5" />
                     <span>
                         Gemini AI, hatırlaması kolay ama kırması zor cümle-şifreler oluşturur (Örn: "Mavi-Balina-Uçuyor-99").
@@ -60,16 +61,16 @@ export const AiGenerator: React.FC<Props> = ({ onGenerate }) => {
                         <div 
                             key={idx}
                             onClick={() => handleCopyAndAudit(pwd, idx)}
-                            className="group bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-indigo-500/50 rounded-xl p-4 flex items-center justify-between cursor-pointer transition-all"
+                            className="group bg-white dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-slate-700 border border-gray-200 dark:border-slate-700 hover:border-indigo-400 dark:hover:border-indigo-500/50 rounded-xl p-4 flex items-center justify-between cursor-pointer transition-all shadow-sm"
                         >
-                            <span className="font-mono text-lg text-slate-200">{pwd}</span>
-                            <button className="text-slate-400 group-hover:text-white transition-colors">
-                                {copiedIndex === idx ? <CheckIcon className="w-5 h-5 text-green-400" /> : <CopyIcon className="w-5 h-5" />}
+                            <span className="font-mono text-lg text-slate-700 dark:text-slate-200">{pwd}</span>
+                            <button className="text-slate-400 group-hover:text-indigo-500 dark:group-hover:text-white transition-colors">
+                                {copiedIndex === idx ? <CheckIcon className="w-5 h-5 text-green-500 dark:text-green-400" /> : <CopyIcon className="w-5 h-5" />}
                             </button>
                         </div>
                     ))
                 ) : (
-                    <div className="flex items-center justify-center h-48 text-slate-500 italic border-2 border-dashed border-slate-800 rounded-xl">
+                    <div className="flex items-center justify-center h-48 text-slate-500 italic border-2 border-dashed border-gray-300 dark:border-slate-800 rounded-xl">
                         Oluşturmak için butona bas
                     </div>
                 )}
@@ -77,9 +78,9 @@ export const AiGenerator: React.FC<Props> = ({ onGenerate }) => {
 
             {auditResult && (
                 <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <div className="bg-slate-900 border-l-4 border-purple-500 p-4 rounded-r-xl shadow-xl">
-                        <p className="text-xs text-purple-400 font-bold uppercase tracking-wider mb-1">AI Güvenlik Yorumu</p>
-                        <p className="text-slate-300 italic">"{auditResult.comment}"</p>
+                    <div className="bg-white dark:bg-slate-900 border-l-4 border-purple-500 p-4 rounded-r-xl shadow-xl border border-gray-100 dark:border-transparent">
+                        <p className="text-xs text-purple-600 dark:text-purple-400 font-bold uppercase tracking-wider mb-1">AI Güvenlik Yorumu</p>
+                        <p className="text-slate-700 dark:text-slate-300 italic">"{auditResult.comment}"</p>
                     </div>
                 </div>
             )}

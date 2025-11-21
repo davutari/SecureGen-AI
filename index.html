@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +10,18 @@
         body { font-family: 'Inter', sans-serif; }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
     </style>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: { 850: '#151e32' }
+                    }
+                }
+            }
+        }
+    </script>
 <script type="importmap">
 {
   "imports": {
@@ -21,7 +33,7 @@
 }
 </script>
 </head>
-<body class="bg-slate-900 text-slate-100 antialiased">
+<body class="bg-gray-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 antialiased transition-colors duration-300">
     <div id="root"></div>
 </body>
 </html>
